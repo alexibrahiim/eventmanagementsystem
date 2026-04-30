@@ -1,0 +1,160 @@
+<%- include('../partials/header') %>
+
+<%
+    const capacityPercentage = event.capacity > 0
+        ? Math.min((registrationCount / event.capacity) * 100, 100)
+        : 0;
+%>
+
+<main class="event-details-page">
+    <section class="event-details-shell">
+
+        <div class="details-back-row">
+            <a href="/events" class="back-link">← Back to Events</a>
+        </div>
+
+        <article class="details-card">
+
+            <div class="details-header">
+                <div>
+                    <span class="details-category">
+                        <%= event.category ? event.category.name : 'General Event' %>
+                    </span>
+
+                    <h1><%= event.title %></h1>
+
+                    <p class="details-subtitle">
+                        <%= event.description %>
+                    </p>
+                </div>
+
+                <% if (isRegistered) { %>
+                    <span class="details-status registered">Registered</span>
+                <% } else if (isFull) { %>
+                    <span class="details-status full">Full</span>
+                <% } else { %>
+                    <span class="details-status available">Available</span>
+                <% } %>
+            </div>
+
+            <div class="details-info-grid">
+                <div class="details-info-box">
+                    <span class="info-icon">📅</span>
+                    <div>
+                        <small>Date</small>
+                        <strong>
+                            <%= event.date.toLocaleDateString('en-US', {
+                                weekday: 'long',
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            }) %>
+                        </strong>
+                    </div>
+                </div>
+
+                <div class="details-info-box">
+                    <span class="info-icon">📍</span>
+                    <div>
+                        <small>Location</small>
+                        <strong><%= event.location %></strong>
+                    </div>
+                </div>
+
+                <div class="details-info-box">
+                    <span class="info-icon">👥</span>
+                    <div>
+                        <small>Registered Seats</small>
+                        <strong><%= registrationCount %> / <%= event.capacity %></strong>
+                    </div>
+                </div>
+
+                <div class="details-info-box">
+                    <span class="info-icon">🏷️</span>
+                    <div>
+                        <small>Category</small>
+                        <strong><%= event.category ? event.category.name : 'General' %></strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="capacity-section">
+                <div class="capacity-top">
+                    <span>Event Capacity</span>
+                    <strong><%= registrationCount %> of <%= event.capacity %> seats taken</strong>
+                </div>
+
+                <div class="capacity-bar">
+                    <div
+                        class="capacity-fill"
+                       
+                    ></div>
+                </div>
+            </div>
+
+            <div class="details-action-area">
+
+                <% if (currentUser && currentUser.role === 'user') { %>
+
+                    <% if (isRegistered) { %>
+                        <div class="action-message success-message">
+                            You are already registered for this event.
+                        </div>
+
+                        <form action="/registrations/cancel/<%= event._id %>" method="POST">
+                            <button type="submit" class="btn-cancel-registration">
+                                Cancel Registration
+                            </button>
+                        </form>
+
+                    <% } else if (isFull) { %>
+                        <div class="action-message warning-message">
+                            This event is currently full.
+                        </div>
+
+                        <button class="btn-disabled" disabled>
+                            Event Full
+                        </button>
+
+                    <% } else { %>
+                        <div class="action-message available-message">
+                            Seats are available. You can register for this event.
+                        </div>
+
+                        <form action="/registrations/register/<%= event._id %>" method="POST">
+                            <button type="submit" class="btn-register-event">
+                                Register for Event
+                            </button>
+                        </form>
+                    <% } %>
+
+                <% } %>
+
+                <% if (currentUser && currentUser.role === 'admin') { %>
+                    <div class="admin-details-actions">
+                        <p>
+                            You are viewing this event as an admin. You can edit or delete this event.
+                        </p>
+
+                        <div class="admin-details-buttons">
+                            <a href="/events/edit/<%= event._id %>" class="btn-edit-event">
+                                Edit Event
+                            </a>
+
+                            <form action="/events/delete/<%= event._id %>" method="POST">
+                                <button type="submit" class="btn-delete-event">
+                                    Delete Event
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                <% } %>
+
+            </div>
+
+        </article>
+
+    </section>
+</main>
+
+<%- include('../partials/footer') %>

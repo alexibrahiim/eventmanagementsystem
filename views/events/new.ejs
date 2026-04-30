@@ -1,0 +1,30 @@
+<%- include('../partials/header') %>
+
+<h2>Create Event</h2>
+
+<form action="/events/new" method="POST">
+    <label>Title</label>
+    <input type="text" name="title" placeholder="Title" required>
+
+    <label>Description</label>
+    <textarea name="description" placeholder="Description" required></textarea>
+
+    <label>Date</label>
+    <input type="date" name="date" required>
+
+    <label>Location</label>
+    <input type="text" name="location" placeholder="Location" required>
+
+    <label>Category</label>
+    <select name="category" required>
+        <% categories.forEach(cat => { %>
+            <option value="<%= cat._id %>"><%= cat.name %></option>
+        <% }) %>
+    </select>
+
+    <button type="submit">Create Event</button>
+</form>
+
+<a href="/events">Back</a>
+
+<%- include('../partials/footer') %>

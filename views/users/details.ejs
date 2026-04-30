@@ -1,0 +1,104 @@
+<%- include('../partials/header') %>
+
+<main class="user-details-page">
+    <section class="user-details-shell">
+
+        <div class="form-back-row">
+            <a href="/users" class="form-back-link">← Back to Users</a>
+        </div>
+
+        <div class="user-profile-card">
+
+            <div class="user-profile-top">
+                <div class="large-user-avatar">
+                    <%= user.name.charAt(0).toUpperCase() %>
+                </div>
+
+                <div>
+                    <span class="role-badge <%= user.role === 'admin' ? 'admin-role' : 'user-role' %>">
+                        <%= user.role %>
+                    </span>
+
+                    <h1><%= user.name %></h1>
+                    <p><%= user.email %></p>
+                </div>
+            </div>
+
+            <div class="user-details-grid">
+                <div class="user-detail-box">
+                    <span>Account Created</span>
+                    <strong><%= user.createdAt.toDateString() %></strong>
+                </div>
+
+                <div class="user-detail-box">
+                    <span>Last Updated</span>
+                    <strong><%= user.updatedAt.toDateString() %></strong>
+                </div>
+
+                <div class="user-detail-box">
+                    <span>Total Registrations</span>
+                    <strong><%= registrations.length %></strong>
+                </div>
+            </div>
+
+            <div class="user-profile-actions">
+                <a href="/users/edit/<%= user._id %>" class="btn-save-event">
+                    Edit User
+                </a>
+
+                <a href="/users" class="btn-cancel-form">
+                    Back
+                </a>
+            </div>
+
+        </div>
+
+        <div class="user-registrations-card">
+            <h2>User Registrations</h2>
+
+            <% if (registrations.length === 0) { %>
+                <p class="muted-text">
+                    This user has not registered for any events yet.
+                </p>
+            <% } else { %>
+                <div class="premium-table-card">
+                    <table class="premium-table">
+                        <thead>
+                            <tr>
+                                <th>Event</th>
+                                <th>Date</th>
+                                <th>Location</th>
+                                <th>Registered At</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <% registrations.forEach(registration => { %>
+                                <tr>
+                                    <td>
+                                        <%= registration.event ? registration.event.title : 'Deleted Event' %>
+                                    </td>
+
+                                    <td>
+                                        <%= registration.event ? registration.event.date.toDateString() : '-' %>
+                                    </td>
+
+                                    <td>
+                                        <%= registration.event ? registration.event.location : '-' %>
+                                    </td>
+
+                                    <td>
+                                        <%= registration.createdAt.toDateString() %>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } %>
+        </div>
+
+    </section>
+</main>
+
+<%- include('../partials/footer') %>

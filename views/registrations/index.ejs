@@ -1,0 +1,81 @@
+<%- include('../partials/header') %>
+
+<main class="registrations-page">
+    <section class="registrations-shell">
+        <div class="page-hero">
+            <span class="eyebrow">Admin</span>
+            <h1>All Event Registrations</h1>
+            <p>See which users registered for each event.</p>
+        </div>
+
+        <% if (registrations.length === 0) { %>
+            <div class="empty-state">
+                <div class="empty-icon">📋</div>
+                <h2>No registrations found</h2>
+                <p>No users have registered for events yet.</p>
+            </div>
+        <% } else { %>
+            <div class="premium-table-card">
+                <table class="premium-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Event</th>
+                            <th>Category</th>
+                            <th>Event Date</th>
+                            <th>Registered On</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% registrations.forEach(reg => { %>
+                            <tr>
+                                <td>
+                                    <strong><%= reg.user ? reg.user.name : 'Deleted User' %></strong>
+                                </td>
+
+                                <td>
+                                    <%= reg.user ? reg.user.email : 'N/A' %>
+                                </td>
+
+                                <td>
+                                    <strong><%= reg.event ? reg.event.title : 'Deleted Event' %></strong>
+                                </td>
+
+                                <td>
+                                    <% if (reg.event && reg.event.category) { %>
+                                        <span class="event-category">
+                                            <%= reg.event.category.name %>
+                                        </span>
+                                    <% } else { %>
+                                        <span class="muted-text">N/A</span>
+                                    <% } %>
+                                </td>
+
+                                <td>
+                                    <%= reg.event ? reg.event.date.toDateString() : 'N/A' %>
+                                </td>
+
+                                <td>
+                                    <%= reg.createdAt.toDateString() %>
+                                </td>
+
+                                <td>
+                                    <form action="/registrations/delete/<%= reg._id %>" method="POST">
+                                        <button type="submit" class="mini-danger">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
+    </section>
+</main>
+
+<%- include('../partials/footer') %>

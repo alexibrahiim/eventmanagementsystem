@@ -1,0 +1,132 @@
+<%- include('../partials/header') %>
+
+<main class="events-admin-page">
+    <section class="events-admin-shell">
+
+        <div class="events-admin-hero">
+            <div>
+                <span class="eyebrow">Events</span>
+
+                <% if (currentUser && currentUser.role === 'admin') { %>
+                    <h1>Manage Events</h1>
+                    <p>
+                        Create, edit, delete, and manage all events that users can browse and register for.
+                    </p>
+                <% } else { %>
+                    <h1>Explore Available Events</h1>
+                    <p>
+                        Browse upcoming events, view details, and register for events that interest you.
+                    </p>
+                <% } %>
+            </div>
+
+            <% if (currentUser && currentUser.role === 'admin') { %>
+                <a href="/events/create" class="events-admin-create-btn">
+                    + Create Event
+                </a>
+            <% } %>
+        </div>
+
+        <% if (events.length === 0) { %>
+            <div class="empty-state">
+                <div class="empty-icon">📅</div>
+                <h2>No Events Available</h2>
+
+                <% if (currentUser && currentUser.role === 'admin') { %>
+                    <p>
+                        Start by creating the first event for users to view and register.
+                    </p>
+
+                    <a href="/events/create" class="events-admin-create-btn empty-btn">
+                        Create First Event
+                    </a>
+                <% } else { %>
+                    <p>
+                        There are no events available right now. Please check again later.
+                    </p>
+                <% } %>
+            </div>
+        <% } else { %>
+
+            <div class="events-admin-grid">
+                <% events.forEach(event => { %>
+                    <article class="events-admin-card">
+
+                        <div class="events-admin-card-top">
+                            <span class="events-admin-category">
+                                <%= event.category ? event.category.name : 'General' %>
+                            </span>
+
+                            <span class="events-admin-status">
+                                Available
+                            </span>
+                        </div>
+
+                        <div class="events-admin-content">
+                            <h2><%= event.title %></h2>
+
+                            <p class="events-admin-description">
+                                <%= event.description %>
+                            </p>
+
+                            <div class="events-admin-info-grid">
+                                <div class="events-admin-info-box">
+                                    <span>📅</span>
+                                    <div>
+                                        <small>Date</small>
+                                        <strong><%= event.date.toDateString() %></strong>
+                                    </div>
+                                </div>
+
+                                <div class="events-admin-info-box">
+                                    <span>📍</span>
+                                    <div>
+                                        <small>Location</small>
+                                        <strong><%= event.location %></strong>
+                                    </div>
+                                </div>
+
+                                <div class="events-admin-info-box">
+                                    <span>👥</span>
+                                    <div>
+                                        <small>Capacity</small>
+                                        <strong><%= event.capacity %> seats</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="events-admin-footer">
+                            <a href="/events/<%= event._id %>" class="events-admin-view-btn">
+                                View Details →
+                            </a>
+
+                            <% if (currentUser && currentUser.role === 'admin') { %>
+                                <div class="events-admin-actions">
+                                    <a href="/events/edit/<%= event._id %>" class="events-admin-edit-btn">
+                                        Edit
+                                    </a>
+
+                                    <form
+                                        action="/events/delete/<%= event._id %>"
+                                        method="POST"
+                                        onsubmit="return confirm('Are you sure you want to delete this event?');"
+                                    >
+                                        <button type="submit" class="events-admin-delete-btn">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            <% } %>
+                        </div>
+
+                    </article>
+                <% }) %>
+            </div>
+
+        <% } %>
+
+    </section>
+</main>
+
+<%- include('../partials/footer') %>

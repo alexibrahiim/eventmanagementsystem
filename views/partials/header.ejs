@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title : 'Event Management System' %></title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <span class="logo-icon">◆</span>
+            <span>Event</span><strong>Management</strong>
+        </a>
+
+        <div class="nav-links">
+            <% if (currentUser) { %>
+                <a href="/" class="<%= title === 'Dashboard' ? 'active' : '' %>">Dashboard</a>
+                <a href="/events" class="<%= title === 'Events' ? 'active' : '' %>">Events</a>
+
+                <% if (currentUser.role === 'user') { %>
+                    <a href="/registrations/my" class="<%= title === 'My Registrations' ? 'active' : '' %>">
+                        My Registrations
+                    </a>
+                <% } %>
+
+                <% if (currentUser.role === 'admin') { %>
+                    <a href="/categories" class="<%= title === 'Categories' ? 'active' : '' %>">Categories</a>
+                    <a href="/registrations" class="<%= title === 'All Registrations' ? 'active' : '' %>">Registrations</a>
+                    <a href="/users" class="<%= title === 'Users' ? 'active' : '' %>">Users</a>
+                <% } %>
+
+                <a href="/logout" class="logout-link">Logout</a>
+            <% } else { %>
+                <a href="/login" class="<%= title === 'Login' ? 'active' : '' %>">Login</a>
+                <a href="/register" class="register-pill <%= title === 'Register' ? 'active' : '' %>">Register</a>
+            <% } %>
+        </div>
+    </nav>
+</header>

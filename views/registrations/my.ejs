@@ -1,0 +1,56 @@
+<%- include('../partials/header') %>
+
+<main class="registrations-page">
+    <section class="registrations-shell">
+        <div class="page-hero">
+            <span class="eyebrow">My Registrations</span>
+            <h1>Your Registered Events</h1>
+            <p>Review the events you joined and cancel registrations when needed.</p>
+        </div>
+
+        <% if (registrations.length === 0) { %>
+            <div class="empty-state">
+                <div class="empty-icon">🎟️</div>
+                <h2>No registrations yet</h2>
+                <p>You have not registered for any events.</p>
+                <a href="/events" class="btn">Browse Events</a>
+            </div>
+        <% } else { %>
+            <div class="premium-event-grid">
+                <% registrations.forEach(reg => { %>
+                    <article class="premium-event-card">
+                        <div class="event-card-top">
+                            <span class="event-category">
+                                <%= reg.event.category ? reg.event.category.name : 'General' %>
+                            </span>
+
+                            <span class="status-badge">Registered</span>
+                        </div>
+
+                        <h2><%= reg.event.title %></h2>
+
+                        <p class="event-preview">
+                            <%= reg.event.description.length > 120 ? reg.event.description.substring(0, 120) + '...' : reg.event.description %>
+                        </p>
+
+                        <div class="event-info-list">
+                            <div>📅 <span><%= reg.event.date.toDateString() %></span></div>
+                            <div>📍 <span><%= reg.event.location %></span></div>
+                            <div>🕒 <span>Registered on <%= reg.createdAt.toDateString() %></span></div>
+                        </div>
+
+                        <div class="event-card-footer">
+                            <a href="/events/<%= reg.event._id %>" class="event-link">View Event →</a>
+
+                            <form action="/registrations/cancel/<%= reg.event._id %>" method="POST">
+                                <button type="submit" class="mini-danger">Cancel</button>
+                            </form>
+                        </div>
+                    </article>
+                <% }) %>
+            </div>
+        <% } %>
+    </section>
+</main>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,84 @@
+<%- include('partials/header') %>
+
+<main class="dashboard-page">
+    <section class="dashboard-shell">
+
+        <div class="dashboard-hero">
+            <div>
+                <span class="eyebrow">Dashboard</span>
+
+                <h1>
+                    Welcome, <%= currentUser ? currentUser.name : 'Guest' %>
+                </h1>
+
+                <% if (currentUser && currentUser.role === 'admin') { %>
+                    <p>
+                        Manage events, categories, registrations, and users from one admin dashboard.
+                    </p>
+                <% } else { %>
+                    <p>
+                        Browse available events, register for events, and manage your registrations.
+                    </p>
+                <% } %>
+            </div>
+
+            <% if (currentUser) { %>
+                <span class="role-pill">
+                    <%= currentUser.role %>
+                </span>
+            <% } %>
+        </div>
+
+        <div class="dashboard-grid">
+
+            <a href="/events" class="dashboard-card">
+                <div class="card-icon">📅</div>
+                <h2>Events</h2>
+
+                <% if (currentUser && currentUser.role === 'admin') { %>
+                    <p>Create, update, delete, and manage all events.</p>
+                <% } else { %>
+                    <p>View available events and register for the ones you like.</p>
+                <% } %>
+
+                <span>Open Events →</span>
+            </a>
+
+            <% if (currentUser && currentUser.role === 'user') { %>
+                <a href="/registrations/my" class="dashboard-card">
+                    <div class="card-icon">🎟️</div>
+                    <h2>My Registrations</h2>
+                    <p>View the events you registered for and cancel registrations when needed.</p>
+                    <span>View My Registrations →</span>
+                </a>
+            <% } %>
+
+            <% if (currentUser && currentUser.role === 'admin') { %>
+                <a href="/categories" class="dashboard-card">
+                    <div class="card-icon">🏷️</div>
+                    <h2>Categories</h2>
+                    <p>Create and manage event categories to organize events clearly.</p>
+                    <span>Manage Categories →</span>
+                </a>
+
+                <a href="/registrations" class="dashboard-card">
+                    <div class="card-icon">📝</div>
+                    <h2>Registrations</h2>
+                    <p>View and manage all users’ event registrations.</p>
+                    <span>Manage Registrations →</span>
+                </a>
+
+                <a href="/users" class="dashboard-card">
+                    <div class="card-icon">👥</div>
+                    <h2>Users</h2>
+                    <p>View, create, update, and delete system users.</p>
+                    <span>Manage Users →</span>
+                </a>
+            <% } %>
+
+        </div>
+
+    </section>
+</main>
+
+<%- include('partials/footer') %>

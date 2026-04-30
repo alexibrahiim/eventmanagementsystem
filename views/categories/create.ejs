@@ -1,0 +1,66 @@
+<%- include('../partials/header') %>
+
+<main class="event-form-page">
+    <section class="event-form-shell">
+
+        <div class="form-back-row">
+            <a href="/categories" class="form-back-link">← Back to Categories</a>
+        </div>
+
+        <div class="event-form-card">
+
+            <div class="event-form-header">
+                <span class="form-badge">Admin Panel</span>
+                <h1>Create Category</h1>
+                <p>
+                    Add a new category to organize events. Categories help users understand the type of event before they register.
+                </p>
+            </div>
+
+            <% if (typeof error !== 'undefined' && error) { %>
+                <div class="error-message">
+                    <%= error %>
+                </div>
+            <% } %>
+
+            <form action="/categories/create" method="POST" class="event-form">
+
+                <div class="form-group">
+                    <label for="name">Category Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Example: Technology"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="5"
+                        placeholder="Write a short description about this category"
+                    ></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-save-event">
+                        Create Category
+                    </button>
+
+                    <a href="/categories" class="btn-cancel-form">
+                        Cancel
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </section>
+</main>
+
+<%- include('../partials/footer') %>

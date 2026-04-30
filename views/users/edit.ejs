@@ -1,0 +1,93 @@
+<%- include('../partials/header') %>
+
+<main class="event-form-page">
+    <section class="event-form-shell">
+
+        <div class="form-back-row">
+            <a href="/users" class="form-back-link">← Back to Users</a>
+        </div>
+
+        <div class="event-form-card">
+
+            <div class="event-form-header">
+                <span class="form-badge">Admin Panel</span>
+                <h1>Edit User</h1>
+                <p>
+                    Update this user’s account information, role, or password. Leave the password field empty if you do not want to change it.
+                </p>
+            </div>
+
+            <% if (typeof error !== 'undefined' && error) { %>
+                <div class="error-message">
+                    <%= error %>
+                </div>
+            <% } %>
+
+            <form action="/users/edit/<%= user._id %>" method="POST" class="event-form">
+
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value="<%= user.name %>"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value="<%= user.email %>"
+                        required
+                    >
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="role">Role</label>
+                        <select id="role" name="role" required>
+                            <option value="user" <%= user.role === 'user' ? 'selected' : '' %>>
+                                User
+                            </option>
+
+                            <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>
+                                Admin
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">New Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Leave empty to keep current password"
+                            minlength="6"
+                        >
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-save-event">
+                        Update User
+                    </button>
+
+                    <a href="/users" class="btn-cancel-form">
+                        Cancel
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </section>
+</main>
+
+<%- include('../partials/footer') %>

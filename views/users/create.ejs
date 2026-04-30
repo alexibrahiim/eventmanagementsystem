@@ -1,0 +1,89 @@
+<%- include('../partials/header') %>
+
+<main class="event-form-page">
+    <section class="event-form-shell">
+
+        <div class="form-back-row">
+            <a href="/users" class="form-back-link">← Back to Users</a>
+        </div>
+
+        <div class="event-form-card">
+
+            <div class="event-form-header">
+                <span class="form-badge">Admin Panel</span>
+                <h1>Create User</h1>
+                <p>
+                    Add a new user account and choose whether the user should have normal user access or admin access.
+                </p>
+            </div>
+
+            <% if (typeof error !== 'undefined' && error) { %>
+                <div class="error-message">
+                    <%= error %>
+                </div>
+            <% } %>
+
+            <form action="/users/create" method="POST" class="event-form">
+
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Example: Alex Ibrahim"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Example: alex@example.com"
+                        required
+                    >
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="role">Role</label>
+                        <select id="role" name="role" required>
+                            <option value="user" selected>User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Minimum 6 characters"
+                            minlength="6"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-save-event">
+                        Create User
+                    </button>
+
+                    <a href="/users" class="btn-cancel-form">
+                        Cancel
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </section>
+</main>
+
+<%- include('../partials/footer') %>
